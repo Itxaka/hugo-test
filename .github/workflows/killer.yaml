@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send failed status to slack
-        if: failure()
         uses: slackapi/slack-github-action@v1.18.0
         with:
           payload: |

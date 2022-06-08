@@ -1,4 +1,4 @@
-name: "killer"
+name: "test"
 
 on:
   workflow_dispatch:
@@ -9,6 +9,31 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Cancel running jobs for merged PRs
-        uses: Itxaka/CancelRunningJobs@v1.0.0
+      - name: Send failed status to slack
+        if: failure()
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "Workflow test failed on job ${{ github.job }}"
+                    },
+                    "accessory": {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": ":github:",
+                         "emoji": true
+                        },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

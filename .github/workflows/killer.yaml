@@ -19,12 +19,13 @@ jobs:
                   "type": "section",
                     "text": {
                       "type": "mrkdwn",
-                      "text": "Workflow test failed on job ${{ github.job }}"
+                      "text": "Workflow killer.yaml failed on job ${{ github.job }}"
                     },
                     "accessory": {
                       "type": "button",
                       "text": {
                         "type": "plain_text",
+                        "style": "danger",
                         "text": ":github:",
                          "emoji": true
                         },
